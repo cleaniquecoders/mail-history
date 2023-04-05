@@ -20,17 +20,12 @@ php artisan vendor:publish --tag="mailhistory-migrations"
 php artisan migrate
 ```
 
-Next, open your `app/Providers/EventServiceProvider.php` and update the `$listen` property as following:
+Now you can use this package happily without further configuration.
 
-```php
-protected $listen = [
-    \Illuminate\Mail\Events\MessageSending::class => [
-        \CleaniqueCoders\MailHistory\Listeners\StoreMessageSending::class,
-    ],
-    \Illuminate\Mail\Events\MessageSent::class => [
-        \CleaniqueCoders\MailHistory\Listeners\StoreMessageSent::class,
-    ],
-];
+Unless, you need to configure more, do publish the config file and update the config file as neccessary.
+
+```bash
+php artisan vendor:publish --tag="mailhistory-config"
 ```
 
 ## Usage
