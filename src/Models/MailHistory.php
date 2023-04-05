@@ -14,7 +14,7 @@ class MailHistory extends Model
     use InteractsWithHash;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected $casts = [

@@ -3,9 +3,7 @@
 namespace CleaniqueCoders\MailHistory\Listeners;
 
 use CleaniqueCoders\MailHistory\Models\MailHistory;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Events\MessageSent;
-use Illuminate\Queue\InteractsWithQueue;
 
 class StoreMessageSent
 {

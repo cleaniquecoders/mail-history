@@ -2,9 +2,9 @@
 
 namespace CleaniqueCoders\MailHistory\Tests;
 
+use CleaniqueCoders\MailHistory\MailHistoryServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use CleaniqueCoders\MailHistory\MailHistoryServiceProvider;
 
 class TestCase extends Orchestra
 {

@@ -3,9 +3,7 @@
 namespace CleaniqueCoders\MailHistory\Listeners;
 
 use CleaniqueCoders\MailHistory\Models\MailHistory;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Queue\InteractsWithQueue;
 
 class StoreMessageSending
 {
@@ -34,7 +32,7 @@ class StoreMessageSending
                 'text-charset' => $event->message->getTextCharset(),
                 'html' => $event->message->getHtmlBody(),
                 'html-charset' => $event->message->getHtmlCharset(),
-            ]
+            ],
         ]);
     }
 }
