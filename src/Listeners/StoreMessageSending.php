@@ -2,7 +2,6 @@
 
 namespace CleaniqueCoders\MailHistory\Listeners;
 
-use CleaniqueCoders\MailHistory\Models\MailHistory;
 use Illuminate\Mail\Events\MessageSending;
 
 class StoreMessageSending

@@ -2,10 +2,9 @@
 
 namespace CleaniqueCoders\MailHistory;
 
+use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use CleaniqueCoders\MailHistory\Commands\MailHistoryCommand;
-use Illuminate\Support\Facades\Event;
 
 class MailHistoryServiceProvider extends PackageServiceProvider
 {
