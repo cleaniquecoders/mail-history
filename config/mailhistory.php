@@ -1,7 +1,7 @@
 <?php
 
-// config for CleaniqueCoders/MailHistory
-
 return [
+    'enabled' => env('MAILHISTORY_ENABLED', true),
+
     'model' => \CleaniqueCoders\MailHistory\Models\MailHistory::class,
 ];
