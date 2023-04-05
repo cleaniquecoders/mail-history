@@ -6,14 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('mailhistory_table', function (Blueprint $table) {
+        Schema::create('mail_histories', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->uuid('uuid');
+            $table->string('hash')->index();
+            $table->enum('status', ['Sending', 'Sent'])->default('Sending');
+            $table->json('headers');
+            $table->text('body')->nullable();
+            $table->json('content')
+                ->comment('Default we have text, text-charset and html key');
             $table->timestamps();
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('mail_histories');
     }
 };
