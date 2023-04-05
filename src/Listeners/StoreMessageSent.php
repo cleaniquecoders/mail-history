@@ -22,8 +22,8 @@ class StoreMessageSent
      */
     public function handle(MessageSent $event): void
     {
-        MailHistory::whereHash(
-            MailHistory::generateHashValue(
+        config('mailhistory.model')::whereHash(
+            config('mailhistory.model')::generateHashValue(
                 $event->message->getHeaders()->toArray()
             )
         )->update(['status' => 'Sent']);

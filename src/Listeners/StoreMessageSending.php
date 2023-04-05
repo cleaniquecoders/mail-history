@@ -22,8 +22,8 @@ class StoreMessageSending
      */
     public function handle(MessageSending $event): void
     {
-        MailHistory::create([
-            'hash' => MailHistory::generateHashValue(
+        config('mailhistory.model')::create([
+            'hash' => config('mailhistory.model')::generateHashValue(
                 $event->message->getHeaders()->toArray()
             ),
             'status' => 'Sending',

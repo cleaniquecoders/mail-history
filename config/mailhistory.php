@@ -1,6 +1,7 @@
 <?php
 
 // config for CleaniqueCoders/MailHistory
-return [
 
+return [
+    'model' => \CleaniqueCoders\MailHistory\Models\MailHistory::class,
 ];
