@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace CleaniqueCoders\MailHistory\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class MailHistoryCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'mailhistory';
 
     public $description = 'My command';
 
