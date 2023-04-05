@@ -4,7 +4,6 @@ namespace CleaniqueCoders\MailHistory;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use CleaniqueCoders\MailHistory\Commands\MailHistoryCommand;
 
 class MailHistoryServiceProvider extends PackageServiceProvider
 {
