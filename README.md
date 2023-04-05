@@ -20,31 +20,22 @@ php artisan vendor:publish --tag="mailhistory-migrations"
 php artisan migrate
 ```
 
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="mailhistory-config"
-```
-
-This is the contents of the published config file:
+Next, open your `app/Providers/EventServiceProvider.php` and update the `$listen` property as following:
 
 ```php
-return [
+protected $listen = [
+    \Illuminate\Mail\Events\MessageSending::class => [
+        \CleaniqueCoders\MailHistory\Listeners\StoreMessageSending::class,
+    ],
+    \Illuminate\Mail\Events\MessageSent::class => [
+        \CleaniqueCoders\MailHistory\Listeners\StoreMessageSent::class,
+    ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="mailhistory-views"
 ```
 
 ## Usage
 
-```php
-$mailHistory = new CleaniqueCoders\MailHistory();
-echo $mailHistory->echoPhrase('Hello, CleaniqueCoders!');
-```
+Developers don't need to do anything, since all the records will capture by the listeners.
 
 ## Testing
 
