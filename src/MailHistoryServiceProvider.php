@@ -18,8 +18,6 @@ class MailHistoryServiceProvider extends PackageServiceProvider
         $package
             ->name('mailhistory')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_mailhistory_table')
-            ->hasCommand(MailHistoryCommand::class);
+            ->hasMigration('create_mailhistory_table');
     }
 }
