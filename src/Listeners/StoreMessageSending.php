@@ -2,7 +2,6 @@
 
 namespace CleaniqueCoders\MailHistory\Listeners;
 
-use CleaniqueCoders\MailHistory\Contracts\HashContract;
 use CleaniqueCoders\MailHistory\Exceptions\MailHistoryException;
 use Illuminate\Mail\Events\MessageSending;
 

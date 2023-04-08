@@ -4,7 +4,6 @@ namespace CleaniqueCoders\MailHistory\Models;
 
 use CleaniqueCoders\MailHistory\Concerns\InteractsWithHash;
 use CleaniqueCoders\MailHistory\Concerns\InteractsWithUuid;
-use CleaniqueCoders\MailHistory\Contracts\HashContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
