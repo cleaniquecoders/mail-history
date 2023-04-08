@@ -2,6 +2,7 @@
 
 namespace CleaniqueCoders\MailHistory\Exceptions;
 
+use CleaniqueCoders\MailHistory\Contracts\HashContract;
 use Exception;
 
 class MailHistoryException extends Exception
