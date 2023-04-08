@@ -2,6 +2,8 @@
 
 namespace CleaniqueCoders\MailHistory\Listeners;
 
+use CleaniqueCoders\MailHistory\Contracts\HashContract;
+use CleaniqueCoders\MailHistory\Exceptions\MailHistoryException;
 use Illuminate\Mail\Events\MessageSending;
 
 class StoreMessageSending
@@ -19,6 +21,8 @@ class StoreMessageSending
      */
     public function handle(MessageSending $event): void
     {
+        MailHistoryException::throwIfHashContractMissing();
+
         config('mailhistory.model')::create([
             'hash' => config('mailhistory.model')::generateHashValue(
                 $event->message->getHeaders()->toArray()
