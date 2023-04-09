@@ -23,6 +23,10 @@ class MailHistoryServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
+        if (! config('mailhistory.enabled')) {
+            return;
+        }
+
         foreach (config('mailhistory.events') as $event => $listeners) {
             foreach (array_unique($listeners, SORT_REGULAR) as $listener) {
                 Event::listen($event, $listener);
