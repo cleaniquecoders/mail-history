@@ -2,6 +2,10 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 1.2.0 - 2023-04-09
+
+**Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/1.1.0...1.2.0
+
 ## 1.1.0 - 2023-04-05
 
 **Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/1.0.0...1.1.0
