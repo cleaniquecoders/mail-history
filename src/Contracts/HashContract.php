@@ -2,7 +2,12 @@
 
 namespace CleaniqueCoders\MailHistory\Contracts;
 
+use Symfony\Component\Mime\Email;
+
 interface HashContract
 {
-    public static function generateHashValue(array $value = []): string;
+    /**
+     * \Symfony\Component\Mime\Email $email
+     */
+    public static function generateHashValue(Email $email): string;
 }

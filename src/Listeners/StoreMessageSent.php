@@ -23,9 +23,7 @@ class StoreMessageSent
         MailHistoryException::throwIfHashContractMissing();
 
         config('mailhistory.model')::whereHash(
-            config('mailhistory.model')::generateHashValue(
-                $event->message->getHeaders()->toArray()
-            )
+            config('mailhistory.hash-generator')::generateHashValue($event->message)
         )->update(['status' => 'Sent']);
     }
 }

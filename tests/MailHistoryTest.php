@@ -25,7 +25,7 @@ it('has HashContract', function () {
     );
 
     $this->assertTrue(
-        in_array(HashContract::class, class_implements(config('mailhistory.model')))
+        in_array(HashContract::class, class_implements(config('mailhistory.hash-generator')))
     );
 
     $this->assertTrue(

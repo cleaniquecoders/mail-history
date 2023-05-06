@@ -1,16 +1,25 @@
 <?php
 
+use CleaniqueCoders\MailHistory\Actions\HashGenerator;
+use CleaniqueCoders\MailHistory\Listeners\StoreMessageSending;
+use CleaniqueCoders\MailHistory\Listeners\StoreMessageSent;
+use CleaniqueCoders\MailHistory\Models\MailHistory;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
+
 return [
     'enabled' => env('MAILHISTORY_ENABLED', true),
 
-    'model' => \CleaniqueCoders\MailHistory\Models\MailHistory::class,
+    'model' => MailHistory::class,
+
+    'hash-generator' => HashGenerator::class,
 
     'events' => [
-        \Illuminate\Mail\Events\MessageSending::class => [
-            \CleaniqueCoders\MailHistory\Listeners\StoreMessageSending::class,
+        MessageSending::class => [
+            StoreMessageSending::class,
         ],
-        \Illuminate\Mail\Events\MessageSent::class => [
-            \CleaniqueCoders\MailHistory\Listeners\StoreMessageSent::class,
+        MessageSent::class => [
+            StoreMessageSent::class,
         ],
     ],
 ];

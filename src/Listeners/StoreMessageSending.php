@@ -25,9 +25,7 @@ class StoreMessageSending
 
         config('mailhistory.model')::create([
             'uuid' => Str::uuid(),
-            'hash' => config('mailhistory.model')::generateHashValue(
-                $event->message->getHeaders()->toArray()
-            ),
+            'hash' => config('mailhistory.hash-generator')::generateHashValue($event->message),
             'status' => 'Sending',
             'headers' => $event->message->getHeaders()->toArray(),
             'body' => $event->message->getBody()->bodyToString(),
