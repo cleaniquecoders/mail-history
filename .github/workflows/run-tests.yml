@@ -18,8 +18,7 @@ jobs:
         stability: [prefer-lowest, prefer-stable]
         include:
           - laravel: 9.*
-            testbench: 8.*
-            carbon: ^2.63
+            testbench: 7.*
           - laravel: 10.*
             testbench: 8.*
             carbon: ^2.63
