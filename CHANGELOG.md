@@ -2,6 +2,17 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 1.4.0 - 2023-06-06
+
+### What's Changed
+
+- Fix hashed not generated 276f597
+- Remove cached PHPUnit Result 071b1fe
+- Bump aglipanci/laravel-pint-action from 2.2.0 to 2.3.0 by @dependabot in https://github.com/cleaniquecoders/mail-history/pull/3
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/cleaniquecoders/mail-history/pull/4
+
+**Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/1.3.2...1.4.0
+
 ## 1.3.2 - 2023-05-10
 
 **Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/1.3.1...1.3.2
