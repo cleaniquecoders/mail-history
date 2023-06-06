@@ -3,20 +3,29 @@
 namespace CleaniqueCoders\MailHistory\Actions;
 
 use CleaniqueCoders\MailHistory\Contracts\HashContract;
-use Symfony\Component\Mime\Email;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
 
 class HashGenerator implements HashContract
 {
     /**
-     * \Symfony\Component\Mime\Email $email
+     * \Illuminate\Mail\Events\MessageSending|\Illuminate\Mail\Events\MessageSent $email
      */
-    public static function generateHashValue(Email $email): string
+    public static function generateHashValue(MessageSending|MessageSent $message): string
     {
-        return md5(
-            implode('.', $email->getTo()).
-            implode('.', $email->getFrom()).
-            implode('.', $email->getSubject()).
-            date('Y-m-d')
-        );
+        $values = [date('Y-m-d')];
+
+        $email = $message->message;
+        $to = $email->getTo();
+        $from = $email->getFrom();
+        foreach ($to as $key => $value) {
+            $values[] = $value->getEncodedAddress();
+        }
+        foreach ($from as $key => $value) {
+            $values[] = $value->getEncodedAddress();
+        }
+        $values[] = $email->getSubject();
+
+        return sha1(implode('.', $values));
     }
 }

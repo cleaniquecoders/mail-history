@@ -2,12 +2,13 @@
 
 namespace CleaniqueCoders\MailHistory\Contracts;
 
-use Symfony\Component\Mime\Email;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
 
 interface HashContract
 {
     /**
-     * \Symfony\Component\Mime\Email $email
+     * \Illuminate\Mail\Events\MessageSending|\Illuminate\Mail\Events\MessageSent $email
      */
-    public static function generateHashValue(Email $email): string;
+    public static function generateHashValue(MessageSending|MessageSent $message): string;
 }
