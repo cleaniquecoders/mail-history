@@ -6,13 +6,21 @@ use Illuminate\Console\Command;
 
 class MailHistoryCommand extends Command
 {
-    public $signature = 'mailhistory';
+    public $signature = 'mailhistory:clear';
 
-    public $description = 'My command';
+    public $description = 'Clear mail history records';
 
     public function handle(): int
     {
-        $this->comment('All done');
+        $confirm = $this->ask('Are you sure want to clear the mail history records?', 'no');
+
+        if (! $confirm) {
+            return self::SUCCESS;
+        }
+
+        config('mailhistory.model')::truncate();
+
+        $this->components->info('Mail history successfully cleared.');
 
         return self::SUCCESS;
     }

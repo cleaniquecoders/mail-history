@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class MailHistory extends Model
 {
     use HasFactory;
-    use InteractsWithUuid;
     use InteractsWithHash;
+    use InteractsWithUuid;
 
     protected $guarded = [
         'id',
@@ -20,5 +20,6 @@ class MailHistory extends Model
     protected $casts = [
         'headers' => 'array',
         'content' => 'array',
+        'meta' => 'array',
     ];
 }
