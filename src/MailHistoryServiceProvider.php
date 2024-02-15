@@ -2,6 +2,8 @@
 
 namespace CleaniqueCoders\MailHistory;
 
+use CleaniqueCoders\MailHistory\Commands\MailHistoryCommand;
+use CleaniqueCoders\MailHistory\Commands\MailHistoryTestCommand;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -18,6 +20,9 @@ class MailHistoryServiceProvider extends PackageServiceProvider
         $package
             ->name('mailhistory')
             ->hasConfigFile()
+            ->hasConsoleCommands(
+                MailHistoryCommand::class, MailHistoryTestCommand::class
+            )
             ->hasMigration('create_mailhistory_table');
     }
 
