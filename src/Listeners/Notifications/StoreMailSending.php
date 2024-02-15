@@ -48,8 +48,8 @@ class StoreMailSending
             $subject = $envelop->subject;
         }
 
-        if(empty($from)) {
-            $from = config('mail.from.name') . ' <' . config('mail.from.address') . '>';
+        if (empty($from)) {
+            $from = config('mail.from.name').' <'.config('mail.from.address').'>';
         }
 
         config('mailhistory.model')::create([
