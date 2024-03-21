@@ -2,6 +2,10 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## Added Laravel 11 Support - 2024-03-21
+
+**Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/2.0.0...2.1.0
+
 ## 2.0.0 - 2024-02-15
 
 ### What's Changed
