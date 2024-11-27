@@ -2,10 +2,7 @@
 
 This package will allow you to capture any mail send out either using Mail or Notification features in Laravel.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/cleaniquecoders/mailhistory.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/mailhistory)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/cleaniquecoders/mailhistory/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/cleaniquecoders/mailhistory/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/cleaniquecoders/mailhistory/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/cleaniquecoders/mailhistory/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/cleaniquecoders/mailhistory.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/mailhistory)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/cleaniquecoders/mailhistory.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/mailhistory) [![PHPStan](https://github.com/cleaniquecoders/mail-history/actions/workflows/phpstan.yml/badge.svg)](https://github.com/cleaniquecoders/mail-history/actions/workflows/phpstan.yml) [![run-tests](https://github.com/cleaniquecoders/mail-history/actions/workflows/run-tests.yml/badge.svg)](https://github.com/cleaniquecoders/mail-history/actions/workflows/run-tests.yml) [![Fix PHP code style issues](https://github.com/cleaniquecoders/mail-history/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/cleaniquecoders/mail-history/actions/workflows/fix-php-code-style-issues.yml) [![Total Downloads](https://img.shields.io/packagist/dt/cleaniquecoders/mailhistory.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/mailhistory)
 
 ## Installation
 
