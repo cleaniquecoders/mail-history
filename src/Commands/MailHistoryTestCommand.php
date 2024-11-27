@@ -39,7 +39,7 @@ class MailHistoryTestCommand extends Command
 
     private function sendMail()
     {
-        $email = new WelcomeMail();
+        $email = new WelcomeMail;
 
         if ($this->option('queue')) {
             Mail::to($this->argument('email'))
@@ -59,7 +59,7 @@ class MailHistoryTestCommand extends Command
 
         $user = config('mailhistory.user-model')::where('email', $email)->firstOrFail();
 
-        $notification = new WelcomeNotification();
+        $notification = new WelcomeNotification;
 
         $user->notify(
             $this->option('queue') ? $notification->onQueue($this->option('queue')) : $notification
