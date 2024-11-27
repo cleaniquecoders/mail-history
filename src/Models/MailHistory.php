@@ -3,7 +3,7 @@
 namespace CleaniqueCoders\MailHistory\Models;
 
 use CleaniqueCoders\MailHistory\Concerns\InteractsWithHash;
-use CleaniqueCoders\MailHistory\Concerns\InteractsWithUuid;
+use CleaniqueCoders\Traitify\Concerns\InteractsWithUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
