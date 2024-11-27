@@ -1,9 +1,7 @@
 <?php
 
 use CleaniqueCoders\MailHistory\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(
-    TestCase::class,
-    RefreshDatabase::class
+    TestCase::class
 )->in(__DIR__);
