@@ -1,121 +1,72 @@
 # Mail History
 
-This package will allow you to capture any mail send out either using Mail or Notification features in Laravel.
-
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cleaniquecoders/mailhistory.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/mailhistory) [![PHPStan](https://github.com/cleaniquecoders/mail-history/actions/workflows/phpstan.yml/badge.svg)](https://github.com/cleaniquecoders/mail-history/actions/workflows/phpstan.yml) [![run-tests](https://github.com/cleaniquecoders/mail-history/actions/workflows/run-tests.yml/badge.svg)](https://github.com/cleaniquecoders/mail-history/actions/workflows/run-tests.yml) [![Fix PHP code style issues](https://github.com/cleaniquecoders/mail-history/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/cleaniquecoders/mail-history/actions/workflows/fix-php-code-style-issues.yml) [![Total Downloads](https://img.shields.io/packagist/dt/cleaniquecoders/mailhistory.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/mailhistory)
 
-## Installation
+A Laravel package for automatically tracking emails sent through Mail and Notification features. Capture email metadata, monitor delivery status, and maintain a complete history of your application's email communications.
 
-You can install the package via composer:
+## Features
+
+- 🚀 **Automatic Tracking** - Captures email metadata without changing existing code
+- 📊 **Status Monitoring** - Tracks email lifecycle from "Sending" to "Sent"
+- 🔍 **Hash-based Identification** - Unique identifiers for each email
+- ⚡ **Queue Support** - Works seamlessly with Laravel's queue system
+- 🎯 **Mailable & Notification Support** - Track both mail types
+- 🛠️ **Artisan Commands** - Built-in testing and maintenance tools
+
+## Quick Start
+
+### Installation
 
 ```bash
 composer require cleaniquecoders/mailhistory
-```
-
-You can publish and run the migrations with:
-
-```bash
 php artisan vendor:publish --tag="mailhistory-migrations"
 php artisan migrate
 ```
 
-If you need to configure more, do publish the config file and update the config file as neccessary.
+### Basic Usage
 
-```bash
-php artisan vendor:publish --tag="mailhistory-config"
-```
-
-## Usage
-
-We need to configure two parts - Mail & Notification.
-
-### Mail
-
-All mails are required to use mail metadata trait.
+Add the trait to your Mailable:
 
 ```php
-<?php
-
-namespace App\Mail;
-
 use CleaniqueCoders\MailHistory\Concerns\InteractsWithMailMetadata;
 
-class DefaultMail extends Mailable
+class WelcomeMail extends Mailable
 {
-    use InteractsWithMailMetadata, SerializesModels;
-```
+    use InteractsWithMailMetadata;
 
-And in your mail constructor, do call the following method:
-
-```php
-public function __construct()
-{
-    $this->configureMetadataHash();
+    public function __construct()
+    {
+        $this->configureMetadataHash();
+    }
 }
 ```
 
-With this setup, we can track which email has been sent or still sending.
+That's it! Your emails are now being tracked automatically.
 
-### Notification
+## Documentation
 
-> Do configure you mail prior to this step.
-> At the moment, it only works with Mailable, not Mail Message class.
+Comprehensive documentation is available in the `docs/` directory:
 
-For notifications classes, you will need to add the following trait:
+### 📚 [Complete Documentation](./docs/README.md)
 
-```php
-use CleaniqueCoders\MailHistory\Concerns\InteractsWithMail;
+- **[Getting Started](./docs/01-getting-started/README.md)** - Installation, configuration, and quick start
+- **[Usage Guide](./docs/02-usage/README.md)** - Mail tracking, notifications, and commands
+- **[Architecture](./docs/03-architecture/README.md)** - Technical deep-dive and design patterns
+- **[Advanced Topics](./docs/04-advanced/README.md)** - Custom hashes, testing, and troubleshooting
 
-class DefaultNotification extends Notification
-{
-    use InteractsWithMail;
-```
+### Quick Links
 
-Then in your notification constructor, you need to initialise the mail object.
+- [Installation Guide](./docs/01-getting-started/01-installation.md)
+- [Configuration](./docs/01-getting-started/02-configuration.md)
+- [Mail Tracking](./docs/02-usage/01-mail-tracking.md)
+- [Notification Tracking](./docs/02-usage/02-notification-tracking.md)
+- [Artisan Commands](./docs/02-usage/03-artisan-commands.md)
+- [Troubleshooting](./docs/04-advanced/03-troubleshooting.md)
 
-```php
-public function __construct()
-{
-    $this->setMail(
-        new \App\Mails\DefaultMail
-    );
-}
-```
+## Requirements
 
-And update the `toMail()` as following:
-
-```php
-/**
- * Get the mail representation of the notification.
- */
-public function toMail(object $notifiable): Mailable
-{
-    return $this->getMail()->to($notifiable->email);
-}
-```
-
-### Artisan Commands
-
-If you need to clean up your mail history table, you can run:
-
-```bash
-php artisan mailhistory:clear
-```
-
-If you need to test the mail or notification:
-
-```bash
-php artisan mailhistory:test you-email@app.com --mail
-php artisan mailhistory:test you-email@app.com --notification
-```
-
-> Do take note, for mail testing, you need a user record that have the email address as we are using Notifiable trait.
-
-You may run the test using specified queue:
-
-```bash
-php artisan mailhistory:test you-email@app.com --mail --queue=mail
-```
+- PHP 8.1 or higher
+- Laravel 9.x, 10.x, or 11.x
 
 ## Testing
 
