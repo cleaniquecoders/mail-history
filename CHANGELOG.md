@@ -2,6 +2,15 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 2.3.0 - 2025-05-01
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/cleaniquecoders/mail-history/pull/16
+* Bump aglipanci/laravel-pint-action from 2.4 to 2.5 by @dependabot in https://github.com/cleaniquecoders/mail-history/pull/17
+
+**Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/2.2.0...2.3.0
+
 ## 2.2.0 - 2024-11-27
 
 ### What's Changed
