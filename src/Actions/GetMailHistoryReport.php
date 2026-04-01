@@ -4,6 +4,7 @@ namespace CleaniqueCoders\MailHistory\Actions;
 
 use CleaniqueCoders\MailHistory\Actions\Contracts\MailHistoryReport;
 use CleaniqueCoders\MailHistory\MailHistory as MailHistoryConstants;
+use CleaniqueCoders\MailHistory\Models\MailHistoryEvent;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class GetMailHistoryReport implements MailHistoryReport
 
     protected function eventModel(): string
     {
-        return config('mailhistory.event-model', \CleaniqueCoders\MailHistory\Models\MailHistoryEvent::class);
+        return config('mailhistory.event-model', MailHistoryEvent::class);
     }
 
     protected function statuses(): array
