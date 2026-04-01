@@ -11,6 +11,7 @@ This section covers the post-delivery email tracking features added in v3.0 — 
 5. [Provider Reference](./05-provider-reference.md) - Provider-specific configuration and payload formats
 6. [Commands](./06-commands.md) - Stats, pruning, and test webhook commands
 7. [Reporting & Statistics](./07-reporting.md) - Action-based reporting for dashboards and UI
+8. [Dashboard UI](./08-dashboard-ui.md) - Built-in Livewire dashboard
 
 ## What's New
 
