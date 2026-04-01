@@ -19,6 +19,10 @@ class WorkbenchServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Enable the mail history dashboard UI
+        config()->set('mailhistory.ui.enabled', true);
+
+        // Allow unauthenticated access for local dev
+        config()->set('mailhistory.ui.middleware', ['web']);
     }
 }
