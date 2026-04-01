@@ -95,7 +95,7 @@ class MailHistoryServiceProvider extends PackageServiceProvider
             return;
         }
 
-        if (method_exists(Livewire::class, 'addNamespace')) {
+        if (method_exists(app('livewire'), 'addNamespace')) {
             // Livewire 4
             Livewire::addNamespace(
                 'mailhistory',
