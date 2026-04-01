@@ -39,6 +39,17 @@ Advanced topics and customization options.
 - [Testing Guide](./04-advanced/02-testing.md)
 - [Troubleshooting](./04-advanced/03-troubleshooting.md)
 
+### [05. Delivery Tracking](./05-delivery-tracking/README.md)
+
+Post-delivery email tracking via provider webhooks, open pixels, and click tracking.
+
+- [Overview](./05-delivery-tracking/01-overview.md) - Architecture and status lifecycle
+- [Webhook Setup](./05-delivery-tracking/02-webhook-setup.md) - Mailgun, SES, Postmark, SendGrid, Resend
+- [Open Tracking](./05-delivery-tracking/03-open-tracking.md) - Pixel-based open detection
+- [Click Tracking](./05-delivery-tracking/04-click-tracking.md) - Link click tracking with redirect
+- [Provider Reference](./05-delivery-tracking/05-provider-reference.md) - Payload formats and event mapping
+- [Commands](./05-delivery-tracking/06-commands.md) - Stats, pruning, and test webhooks
+
 ## Quick Links
 
 - [GitHub Repository](https://github.com/cleaniquecoders/mail-history)
