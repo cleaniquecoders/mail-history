@@ -40,10 +40,6 @@ class MailHistoryServiceProvider extends PackageServiceProvider
             )
             ->hasMigration('create_mailhistory_table')
             ->hasMigration('create_mail_history_events_table');
-
-        if (config('mailhistory.ui.enabled', false)) {
-            $package->hasRoute('web');
-        }
     }
 
     public function packageRegistered()
@@ -66,9 +62,27 @@ class MailHistoryServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
+        $this->registerDashboardRoutes();
         $this->registerLivewireComponents();
         $this->registerWebhookRoutes();
         $this->registerTrackingRoutes();
+    }
+
+    protected function registerDashboardRoutes(): void
+    {
+        if (! config('mailhistory.ui.enabled', false)) {
+            return;
+        }
+
+        Route::group([
+            'prefix' => config('mailhistory.ui.prefix', 'mailhistory'),
+            'middleware' => config('mailhistory.ui.middleware', ['web', 'auth']),
+            'as' => config('mailhistory.ui.name', 'mailhistory.'),
+        ], function () {
+            Route::get('/', function () {
+                return view('mailhistory::index');
+            })->name('dashboard');
+        });
     }
 
     protected function registerLivewireComponents(): void
