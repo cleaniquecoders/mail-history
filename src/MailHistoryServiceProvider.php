@@ -98,10 +98,11 @@ class MailHistoryServiceProvider extends PackageServiceProvider
         if (method_exists(Livewire::class, 'addNamespace')) {
             // Livewire 4
             Livewire::addNamespace(
-                namespace: 'mailhistory',
-                classNamespace: 'CleaniqueCoders\\MailHistory\\Livewire',
-                classPath: __DIR__.'/Livewire',
-                classViewPath: __DIR__.'/../resources/views/livewire',
+                'mailhistory',
+                null,
+                'CleaniqueCoders\\MailHistory\\Livewire',
+                __DIR__.'/Livewire',
+                __DIR__.'/../resources/views/livewire',
             );
         } else {
             // Livewire 3
