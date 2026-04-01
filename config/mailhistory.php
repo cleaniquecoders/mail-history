@@ -118,4 +118,21 @@ return [
         'enabled' => env('MAILHISTORY_RETENTION_ENABLED', false),
         'days' => env('MAILHISTORY_RETENTION_DAYS', 90),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard UI
+    |--------------------------------------------------------------------------
+    |
+    | Enable the built-in Livewire dashboard for viewing mail history
+    | statistics and activity. Requires livewire/livewire ^3.0 or ^4.0.
+    |
+    */
+
+    'ui' => [
+        'enabled' => env('MAILHISTORY_UI_ENABLED', false),
+        'prefix' => 'mailhistory',
+        'middleware' => ['web', 'auth'],
+        'name' => 'mailhistory.',
+    ],
 ];

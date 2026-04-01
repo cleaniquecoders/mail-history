@@ -87,6 +87,9 @@
             }
         }
     },
+    "suggest": {
+        "livewire/livewire": "Required for the built-in dashboard UI (^3.0 or ^4.0)"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }

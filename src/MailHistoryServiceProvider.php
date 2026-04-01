@@ -11,8 +11,10 @@ use CleaniqueCoders\MailHistory\Commands\MailHistoryTestCommand;
 use CleaniqueCoders\MailHistory\Commands\MailHistoryTestWebhookCommand;
 use CleaniqueCoders\MailHistory\Http\Controllers\TrackingController;
 use CleaniqueCoders\MailHistory\Http\Controllers\WebhookController;
+use CleaniqueCoders\MailHistory\Livewire\Dashboard;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -28,6 +30,7 @@ class MailHistoryServiceProvider extends PackageServiceProvider
         $package
             ->name('mailhistory')
             ->hasConfigFile()
+            ->hasViews()
             ->hasConsoleCommands(
                 MailHistoryCommand::class,
                 MailHistoryTestCommand::class,
@@ -37,6 +40,10 @@ class MailHistoryServiceProvider extends PackageServiceProvider
             )
             ->hasMigration('create_mailhistory_table')
             ->hasMigration('create_mail_history_events_table');
+
+        if (config('mailhistory.ui.enabled', false)) {
+            $package->hasRoute('web');
+        }
     }
 
     public function packageRegistered()
@@ -59,8 +66,33 @@ class MailHistoryServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
+        $this->registerLivewireComponents();
         $this->registerWebhookRoutes();
         $this->registerTrackingRoutes();
+    }
+
+    protected function registerLivewireComponents(): void
+    {
+        if (! config('mailhistory.ui.enabled', false)) {
+            return;
+        }
+
+        if (! class_exists(Livewire::class)) {
+            return;
+        }
+
+        if (method_exists(Livewire::class, 'addNamespace')) {
+            // Livewire 4
+            Livewire::addNamespace(
+                namespace: 'mailhistory',
+                classNamespace: 'CleaniqueCoders\\MailHistory\\Livewire',
+                classPath: __DIR__.'/Livewire',
+                classViewPath: __DIR__.'/../resources/views/livewire',
+            );
+        } else {
+            // Livewire 3
+            Livewire::component('mailhistory::dashboard', Dashboard::class);
+        }
     }
 
     protected function registerWebhookRoutes(): void
