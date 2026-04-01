@@ -27,11 +27,15 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        config()->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
         config()->set('view.paths', [
             dirname(__FILE__).'/resources/views',
         ]);
 
         $migration = include __DIR__.'/../database/migrations/create_mailhistory_table.php.stub';
         $migration->up();
+
+        $eventsMigration = include __DIR__.'/../database/migrations/create_mail_history_events_table.php.stub';
+        $eventsMigration->up();
     }
 }

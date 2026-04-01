@@ -2,6 +2,7 @@
 
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -35,7 +36,7 @@ it('does not have the MessageSending and MessageSent event listened when disable
 });
 
 it('stores mail history when sending mail', function () {
-    $mailable = new \Illuminate\Mail\Mailable;
+    $mailable = new Mailable;
     $mailable->to('test@example.com')
         ->from('from@example.com')
         ->subject('Test Subject')
