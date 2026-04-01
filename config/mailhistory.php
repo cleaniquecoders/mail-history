@@ -1,5 +1,6 @@
 <?php
 
+use CleaniqueCoders\MailHistory\Actions\GetMailHistoryReport;
 use CleaniqueCoders\MailHistory\Listeners\Mails\StoreMessageSending as StoreMailMessageSending;
 use CleaniqueCoders\MailHistory\Listeners\Mails\StoreMessageSent as StoreMailMessageSent;
 use CleaniqueCoders\MailHistory\Listeners\Notifications\StoreMailSending as StoreNotificationMessageSending;
@@ -22,6 +23,8 @@ return [
     'model' => MailHistory::class,
 
     'event-model' => MailHistoryEvent::class,
+
+    'report' => GetMailHistoryReport::class,
 
     'user-model' => '\App\Models\User',
 

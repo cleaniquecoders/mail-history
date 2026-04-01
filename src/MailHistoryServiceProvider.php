@@ -2,6 +2,8 @@
 
 namespace CleaniqueCoders\MailHistory;
 
+use CleaniqueCoders\MailHistory\Actions\Contracts\MailHistoryReport;
+use CleaniqueCoders\MailHistory\Actions\GetMailHistoryReport;
 use CleaniqueCoders\MailHistory\Commands\MailHistoryCommand;
 use CleaniqueCoders\MailHistory\Commands\MailHistoryPruneCommand;
 use CleaniqueCoders\MailHistory\Commands\MailHistoryStatsCommand;
@@ -39,6 +41,11 @@ class MailHistoryServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
+        $this->app->bind(
+            MailHistoryReport::class,
+            config('mailhistory.report', GetMailHistoryReport::class)
+        );
+
         if (! config('mailhistory.enabled')) {
             return;
         }
