@@ -54,6 +54,7 @@ Post-delivery email tracking via provider webhooks, open pixels, and click track
 
 ## Quick Links
 
+- [Upgrade Guide](../UPGRADE.md)
 - [GitHub Repository](https://github.com/cleaniquecoders/mail-history)
 - [Packagist](https://packagist.org/packages/cleaniquecoders/mailhistory)
 - [Report Issues](https://github.com/cleaniquecoders/mail-history/issues)
