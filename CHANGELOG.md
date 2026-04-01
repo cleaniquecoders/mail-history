@@ -2,6 +2,124 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 3.0.0 - Email Delivery Status Tracking - 2026-04-01
+
+### What's New
+
+This release adds full post-delivery email tracking to Mail History. All new features are **opt-in and disabled by default** — zero breaking changes from 2.x.
+
+#### Delivery Status Tracking
+
+Track the complete email lifecycle beyond `Sending → Sent`:
+
+```
+Sending → Sent → Delivered → Opened → Clicked
+                     ↘ Bounced / Complained / Failed
+
+```
+- **6 new status constants** — Delivered, Opened, Clicked, Bounced, Complained, Failed
+- **`mail_history_events` table** — Append-only event log with provider, IP, user-agent, URL, and raw payload
+- **Implied status backfill** — An open auto-creates a Delivered event; a click auto-creates both Delivered and Opened
+
+#### Provider Webhooks
+
+Receive delivery callbacks from your email provider:
+
+- **Mailgun** (HMAC-SHA256), **Amazon SES** (SNS), **Postmark** (token), **SendGrid** (ECDSA), **Resend** (Svix)
+- Signature verification per provider
+- Swappable handler classes via config
+- Provider-specific header injection (`X-Mailgun-Variables`, `X-SES-MESSAGE-TAGS`, etc.)
+
+```env
+MAILHISTORY_WEBHOOKS_ENABLED=true
+MAILHISTORY_MAILGUN_SIGNING_KEY=your-key
+
+```
+#### Open & Click Tracking
+
+Self-hosted tracking without provider webhooks:
+
+- **Open tracking** — 1x1 transparent GIF pixel injected into HTML emails
+- **Click tracking** — Links rewritten through encrypted redirect URL (prevents open redirect attacks)
+- Traits: `InteractsWithOpenTracking`, `InteractsWithClickTracking`
+
+```env
+MAILHISTORY_TRACK_OPENS=true
+MAILHISTORY_TRACK_CLICKS=true
+
+```
+#### Reporting Action
+
+`MailHistoryReport` contract with `GetMailHistoryReport` implementation:
+
+| Method | Use Case |
+|--------|----------|
+| `summary()` | KPI cards — counts + percentage rates |
+| `trends()` | Time-series (daily/weekly/monthly) |
+| `byProvider()` | Provider comparison |
+| `timeline()` | Single email event history |
+| `topRecipients()` | Most bounced/complained addresses |
+| `recentActivity()` | Latest events feed |
+| `stale()` | Emails stuck in a status |
+| `byHeader()` | Per-subject/sender breakdown |
+
+Swappable via `config('mailhistory.report')`.
+
+#### Livewire Dashboard
+
+Built-in dashboard with Livewire 3 & 4 dual support:
+
+- KPI cards, trends table, provider breakdown
+- Stale email alerts, top bounced/complained lists
+- Recent activity feed with inline timeline expansion
+- Period selector (7–90 days), dark mode support
+- Tailwind CDN — zero build step
+
+```env
+MAILHISTORY_UI_ENABLED=true
+
+```
+#### Artisan Commands
+
+| Command | Description |
+|---------|-------------|
+| `mailhistory:stats --days=30` | Delivery statistics table |
+| `mailhistory:prune --days=90` | Delete old records |
+| `mailhistory:test-webhook {provider} {type}` | Simulate webhook events |
+
+#### Laravel Events
+
+| Event | Fired When |
+|-------|-----------|
+| `MailHistoryEventReceived` | Every delivery event |
+| `MailDelivered` | Delivery confirmed |
+| `MailBounced` | Email bounced |
+| `MailComplained` | Spam complaint |
+
+### Upgrade from 2.x
+
+**Zero breaking changes.** One required step:
+
+```bash
+composer update cleaniquecoders/mailhistory
+php artisan vendor:publish --tag="mailhistory-migrations"
+php artisan migrate
+
+```
+See [UPGRADE.md](https://github.com/cleaniquecoders/mail-history/blob/main/UPGRADE.md) for full details.
+
+### Documentation
+
+Complete documentation at [`docs/05-delivery-tracking/`](https://github.com/cleaniquecoders/mail-history/tree/main/docs/05-delivery-tracking) with Mermaid diagrams.
+
+### Stats
+
+- 73 tests, 167 assertions
+- 40+ new files
+- 5 provider handlers
+- 8 reporting methods
+- Full Livewire 3/4 dashboard
+
 ## 2.4.0 - 2026-03-31
 
 ### What's Changed
