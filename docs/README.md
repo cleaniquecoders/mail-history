@@ -49,6 +49,7 @@ Post-delivery email tracking via provider webhooks, open pixels, and click track
 - [Click Tracking](./05-delivery-tracking/04-click-tracking.md) - Link click tracking with redirect
 - [Provider Reference](./05-delivery-tracking/05-provider-reference.md) - Payload formats and event mapping
 - [Commands](./05-delivery-tracking/06-commands.md) - Stats, pruning, and test webhooks
+- [Reporting & Statistics](./05-delivery-tracking/07-reporting.md) - Action-based reporting for dashboards
 
 ## Quick Links
 

@@ -10,6 +10,7 @@ This section covers the post-delivery email tracking features added in v3.0 — 
 4. [Click Tracking](./04-click-tracking.md) - Link click tracking with redirect
 5. [Provider Reference](./05-provider-reference.md) - Provider-specific configuration and payload formats
 6. [Commands](./06-commands.md) - Stats, pruning, and test webhook commands
+7. [Reporting & Statistics](./07-reporting.md) - Action-based reporting for dashboards and UI
 
 ## What's New
 
