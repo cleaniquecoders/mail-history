@@ -2,6 +2,20 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 3.1.0 - 2026-06-19
+
+### Added
+
+- **Automatic open/click tracking injection** — a new `InjectMailTracking` listener auto-injects the open-tracking pixel and rewrites links into outgoing HTML mail when `tracking.open` / `tracking.click` are enabled. Previously the package shipped the tracking routes + trait helpers but each app had to hand-roll its own `MessageSending` listener to inject them.
+- **Universal metadata hash** — a new `EnsureMailMetadataHash` listener stamps an `X-Metadata-hash` header on **every** outgoing message, so status correlation and open/click tracking now work for **all** mail, not just Mailables that opt in via `InteractsWithMailMetadata`.
+- A shared `RewritesTrackingHtml` concern holding the pixel/link-rewrite transforms; `InteractsWithOpenTracking` and `InteractsWithClickTracking` now delegate to it.
+
+Both listeners are auto-registered by the service provider, so upgrading needs **no config re-publish**.
+
+### Fixed
+
+- Non-metadata mail (plain Mailables, notifications, raw mail) got stuck at status `Sending`: `StoreMessageSending` generated a per-record hash that never reached the message header, so `MessageSent` could not correlate the row. With `EnsureMailMetadataHash` stamping the header first, the row now correctly advances to `Sent`.
+
 ## 3.0.0 - Email Delivery Status Tracking - 2026-04-01
 
 ### What's New

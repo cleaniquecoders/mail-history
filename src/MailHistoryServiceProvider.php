@@ -11,7 +11,10 @@ use CleaniqueCoders\MailHistory\Commands\MailHistoryTestCommand;
 use CleaniqueCoders\MailHistory\Commands\MailHistoryTestWebhookCommand;
 use CleaniqueCoders\MailHistory\Http\Controllers\TrackingController;
 use CleaniqueCoders\MailHistory\Http\Controllers\WebhookController;
+use CleaniqueCoders\MailHistory\Listeners\EnsureMailMetadataHash;
+use CleaniqueCoders\MailHistory\Listeners\InjectMailTracking;
 use CleaniqueCoders\MailHistory\Livewire\Dashboard;
+use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -53,10 +56,24 @@ class MailHistoryServiceProvider extends PackageServiceProvider
             return;
         }
 
+        // Ensure every outgoing message carries an X-Metadata-hash header BEFORE
+        // the store listeners run, so MessageSent correlation + open/click
+        // tracking work for ALL mail — not just Mailables using
+        // InteractsWithMailMetadata. Registered here (not via the publishable
+        // `events` config) so upgrading the package needs no config re-publish.
+        Event::listen(MessageSending::class, EnsureMailMetadataHash::class);
+
         foreach (config('mailhistory.events') as $event => $listeners) {
             foreach (array_unique($listeners, SORT_REGULAR) as $listener) {
                 Event::listen($event, $listener);
             }
+        }
+
+        // Auto-inject the open pixel + rewrite links AFTER the row is stored, so
+        // the stored body stays original and tracking applies only to what is
+        // actually sent. Runs only when self-hosted tracking is enabled.
+        if (config('mailhistory.tracking.open.enabled') || config('mailhistory.tracking.click.enabled')) {
+            Event::listen(MessageSending::class, InjectMailTracking::class);
         }
     }
 

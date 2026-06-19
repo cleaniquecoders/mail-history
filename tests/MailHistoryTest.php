@@ -44,8 +44,11 @@ it('stores mail history when sending mail', function () {
 
     Mail::send($mailable);
 
+    // EnsureMailMetadataHash stamps an X-Metadata-hash header even on plain
+    // Mailables, so MessageSent now correlates the row and advances it past
+    // "Sending" to "Sent" (previously it stayed stuck at "Sending").
     $this->assertDatabaseHas('mail_histories', [
-        'status' => 'Sending',
+        'status' => 'Sent',
         'body' => 'Test content',
         'content' => '{"text":null,"text-charset":null,"html":"Test content","html-charset":"utf-8"}',
         'meta' => '{"origin":"Mail"}',

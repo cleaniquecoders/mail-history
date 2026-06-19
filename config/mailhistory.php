@@ -86,7 +86,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | Configure open (pixel) and click tracking. When enabled, the package
-    | can inject tracking pixels and rewrite links in outgoing emails.
+    | auto-injects an open-tracking pixel and rewrites links in outgoing HTML
+    | mail (via the InjectMailTracking listener), keyed by the X-Metadata-hash
+    | header that EnsureMailMetadataHash stamps on every message.
     |
     */
 

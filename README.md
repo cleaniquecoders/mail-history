@@ -7,6 +7,7 @@ A Laravel package for automatically tracking emails sent through Mail and Notifi
 ## Features
 
 - 🚀 **Automatic Tracking** - Captures email metadata without changing existing code
+- 👁️ **Open & Click Tracking** - Auto-injects a tracking pixel and rewrites links for all HTML mail (self-hosted, any transport)
 - 📊 **Status Monitoring** - Tracks email lifecycle from "Sending" to "Sent"
 - 🔍 **Hash-based Identification** - Unique identifiers for each email
 - ⚡ **Queue Support** - Works seamlessly with Laravel's queue system
