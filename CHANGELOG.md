@@ -2,7 +2,7 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
-## 3.1.0 - 2026-06-19
+## 3.1.1 - 2026-06-19
 
 ### Added
 
