@@ -2,6 +2,14 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 3.1.2 - 2026-06-25
+
+### Fixed
+
+- **Click tracking broke signed URLs.** Tracked links were captured from the rendered HTML (where mail templates escape `&` to `&amp;`), encrypted as-is, and redirected verbatim on click — turning `?expires=..&signature=..` into `?expires=..&amp;signature=..`. Browsers then sent an `amp;signature` key with no `signature`, so Laravel's signature validation failed. This broke email verification, password reset, and any `temporarySignedRoute` link routed through click tracking. The captured URL is now HTML-entity-decoded before encryption so the query string round-trips intact. Added a regression test for the full rewrite → decrypt round trip.
+
+**Full Changelog**: https://github.com/cleaniquecoders/mail-history/compare/3.1.1...3.1.2
+
 ## 3.1.1 - 2026-06-19
 
 ### Added
@@ -30,6 +38,7 @@ Track the complete email lifecycle beyond `Sending → Sent`:
 Sending → Sent → Delivered → Opened → Clicked
                      ↘ Bounced / Complained / Failed
 
+
 ```
 - **6 new status constants** — Delivered, Opened, Clicked, Bounced, Complained, Failed
 - **`mail_history_events` table** — Append-only event log with provider, IP, user-agent, URL, and raw payload
@@ -48,6 +57,7 @@ Receive delivery callbacks from your email provider:
 MAILHISTORY_WEBHOOKS_ENABLED=true
 MAILHISTORY_MAILGUN_SIGNING_KEY=your-key
 
+
 ```
 #### Open & Click Tracking
 
@@ -60,6 +70,7 @@ Self-hosted tracking without provider webhooks:
 ```env
 MAILHISTORY_TRACK_OPENS=true
 MAILHISTORY_TRACK_CLICKS=true
+
 
 ```
 #### Reporting Action
@@ -92,6 +103,7 @@ Built-in dashboard with Livewire 3 & 4 dual support:
 ```env
 MAILHISTORY_UI_ENABLED=true
 
+
 ```
 #### Artisan Commands
 
@@ -118,6 +130,7 @@ MAILHISTORY_UI_ENABLED=true
 composer update cleaniquecoders/mailhistory
 php artisan vendor:publish --tag="mailhistory-migrations"
 php artisan migrate
+
 
 ```
 See [UPGRADE.md](https://github.com/cleaniquecoders/mail-history/blob/main/UPGRADE.md) for full details.
