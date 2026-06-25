@@ -43,7 +43,11 @@ trait RewritesTrackingHtml
             '/<a\s([^>]*?)href=["\']([^"\']+)["\']/i',
             function ($matches) use ($hash, $excludePatterns) {
                 $attributes = $matches[1];
-                $originalUrl = $matches[2];
+                // Decode HTML entities (e.g. &amp; -> &) captured from the rendered
+                // href so signed-URL query strings survive the encrypt/redirect round
+                // trip. Without this, "?expires=..&amp;signature=.." is redirected
+                // verbatim and breaks Laravel signature validation.
+                $originalUrl = html_entity_decode($matches[2], ENT_QUOTES | ENT_HTML5);
 
                 // Skip non-http links.
                 if (preg_match('/^(mailto:|tel:|#|javascript:)/i', $originalUrl)) {

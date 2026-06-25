@@ -3,6 +3,7 @@
 use CleaniqueCoders\MailHistory\Http\Controllers\TrackingController;
 use CleaniqueCoders\MailHistory\Listeners\InjectMailTracking;
 use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Mime\Email;
 
@@ -32,6 +33,29 @@ it('injects the open pixel and rewrites links when tracking is enabled', functio
         ->toContain('mailhistory/track/open/'.$hash)       // open pixel
         ->toContain('mailhistory/track/click/'.$hash)      // rewritten link
         ->not->toContain('href="https://example.com/page"'); // original link replaced
+});
+
+it('decodes HTML entities in the tracked URL so signed query strings survive', function () {
+    config(['mailhistory.tracking.open.enabled' => false, 'mailhistory.tracking.click.enabled' => true]);
+    $hash = sha1('signed');
+
+    // As rendered by Laravel's mail templates, the ampersand in a signed URL is
+    // HTML-escaped to &amp; inside the href attribute.
+    $signedUrl = 'https://example.com/email/verify/1/abc?expires=123&signature=deadbeef';
+    $email = (new Email)->html('<html><body><a href="https://example.com/email/verify/1/abc?expires=123&amp;signature=deadbeef">Verify</a></body></html>');
+    $email->getHeaders()->addTextHeader('X-Metadata-hash', $hash);
+
+    (new InjectMailTracking)->handle(new MessageSending($email));
+
+    expect($email->getHtmlBody())->toMatch('/mailhistory\/track\/click/');
+
+    // Extract the encrypted url param and assert it decrypts back to the clean &.
+    preg_match('/track\/click\/'.$hash.'\?url=([^"\']+)/', $email->getHtmlBody(), $m);
+    $decrypted = Crypt::decryptString(urldecode($m[1]));
+
+    expect($decrypted)
+        ->toBe($signedUrl)
+        ->not->toContain('&amp;');
 });
 
 it('only injects the pixel when click tracking is off', function () {
