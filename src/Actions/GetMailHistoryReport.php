@@ -68,20 +68,7 @@ class GetMailHistoryReport implements MailHistoryReport
         $from = $from ?? now()->subDays(30);
         $to = $to ?? now();
 
-        $driver = DB::connection()->getDriverName();
-
-        $periodExpression = match ($driver) {
-            'sqlite' => match ($interval) {
-                'weekly' => "strftime('%Y-W%W', created_at)",
-                'monthly' => "strftime('%Y-%m', created_at)",
-                default => "strftime('%Y-%m-%d', created_at)",
-            },
-            default => match ($interval) {
-                'weekly' => "DATE_FORMAT(created_at, '%x-W%v')",
-                'monthly' => "DATE_FORMAT(created_at, '%Y-%m')",
-                default => "DATE_FORMAT(created_at, '%Y-%m-%d')",
-            },
-        };
+        $periodExpression = $this->periodExpression($interval);
 
         $query = $this->model()::query()
             ->select(
@@ -94,7 +81,7 @@ class GetMailHistoryReport implements MailHistoryReport
 
         foreach ($this->statuses() as $status) {
             $query->addSelect(
-                DB::raw("SUM(CASE WHEN status = '{$status}' THEN 1 ELSE 0 END) as `".strtolower($status).'`')
+                DB::raw("SUM(CASE WHEN status = '{$status}' THEN 1 ELSE 0 END) as ".$this->alias(strtolower($status)))
             );
         }
 
@@ -116,7 +103,7 @@ class GetMailHistoryReport implements MailHistoryReport
 
         foreach ($eventTypes as $type) {
             $query->addSelect(
-                DB::raw("SUM(CASE WHEN type = '{$type}' THEN 1 ELSE 0 END) as `{$type}`")
+                DB::raw("SUM(CASE WHEN type = '{$type}' THEN 1 ELSE 0 END) as ".$this->alias($type))
             );
         }
 
@@ -238,6 +225,46 @@ class GetMailHistoryReport implements MailHistoryReport
             })
             ->sortByDesc('total')
             ->values();
+    }
+
+    /**
+     * Quote a column alias for the connection in use.
+     *
+     * Backticks are MySQL's identifier quote and a syntax error everywhere
+     * else — on PostgreSQL they raise SQLSTATE[42601]. The grammar knows what
+     * this connection wants, so ask it rather than hard-coding one vendor's.
+     */
+    protected function alias(string $alias): string
+    {
+        return DB::connection()->getQueryGrammar()->wrap($alias);
+    }
+
+    /**
+     * The SQL expression that buckets `created_at` into a reporting period.
+     *
+     * DATE_FORMAT() is MySQL-only; PostgreSQL spells it to_char() with its own
+     * pattern language, and SQLite uses strftime(). Weekly buckets follow the
+     * ISO week so a year boundary mid-week does not split into two labels.
+     */
+    protected function periodExpression(string $interval): string
+    {
+        return match (DB::connection()->getDriverName()) {
+            'sqlite' => match ($interval) {
+                'weekly' => "strftime('%Y-W%W', created_at)",
+                'monthly' => "strftime('%Y-%m', created_at)",
+                default => "strftime('%Y-%m-%d', created_at)",
+            },
+            'pgsql' => match ($interval) {
+                'weekly' => 'to_char(created_at, \'IYYY-"W"IW\')',
+                'monthly' => "to_char(created_at, 'YYYY-MM')",
+                default => "to_char(created_at, 'YYYY-MM-DD')",
+            },
+            default => match ($interval) {
+                'weekly' => "DATE_FORMAT(created_at, '%x-W%v')",
+                'monthly' => "DATE_FORMAT(created_at, '%Y-%m')",
+                default => "DATE_FORMAT(created_at, '%Y-%m-%d')",
+            },
+        };
     }
 
     protected function applyDateRange($query, ?Carbon $from, ?Carbon $to)

@@ -2,6 +2,14 @@
 
 All notable changes to `MailHistory` will be documented in this file.
 
+## 3.1.3 - 2026-08-24
+
+### Fixed
+
+- **Reports crashed on PostgreSQL.** `GetMailHistoryReport::trends()` and `byProvider()` quoted their column aliases with MySQL backticks and bucketed periods with `DATE_FORMAT()`, both of which are MySQL-only. On PostgreSQL the dashboard died with `SQLSTATE[42601]: syntax error at or near "\`"`. Aliases now go through the connection's own query grammar, and the period expression has a `pgsql` arm using `to_char()` with ISO week numbering.
+
+  The test suite runs on SQLite, which accepts backticks as an identifier quote, so this never surfaced locally. New tests assert the emitted dialect per driver by reading the grammar, so no MySQL or PostgreSQL server is needed to keep them honest.
+
 ## 3.1.2 - 2026-06-25
 
 ### Fixed
